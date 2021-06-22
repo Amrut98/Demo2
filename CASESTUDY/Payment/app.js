@@ -1,0 +1,74 @@
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const controllerpayment = require('./controllers/controller');
+
+// const app = express();
+
+// // view engine
+// app.set('view engine', 'ejs');
+
+// // database connection
+// const dbURI = 'mongodb+srv://Amrut1998:Amrut1998@cluster0.y38he.mongodb.net/PaymentFun?retryWrites=true&w=majority';
+// mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+//     .then((result) => app.listen(3003))
+//     .catch((err) => console.log(err));
+// controllerpayment(app);
+
+let express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const crypto = require("crypto");
+const Razorpay = require("razorpay");
+
+dotenv.config();
+let app = express();
+
+const instance = new Razorpay({
+    key_id: process.env.KEY_ID,
+    key_secret: process.env.KEY_SECRET,
+});
+//Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: false,
+    })
+);
+app.use(bodyParser.json());
+app.set("view engine", "ejs");
+
+//Routes
+app.get("/payments", (req, res) => {
+    res.render("admin", { key: process.env.KEY_ID });
+});
+app.post("/api/payment/order", (req, res) => {
+    params = req.body;
+    instance.orders
+        .create(params)
+        .then((data) => {
+            res.send({ sub: data, status: "success" });
+        })
+        .catch((error) => {
+            res.send({ sub: error, status: "failed" });
+        });
+});
+
+app.post("/api/payment/verify", (req, res) => {
+    body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+
+    var expectedSignature = crypto
+        .createHmac("sha256", process.env.KEY_SECRET)
+        .update(body.toString())
+        .digest("hex");
+    console.log("sig" + req.body.razorpay_signature);
+    console.log("sig" + expectedSignature);
+    var response = { status: "failure" };
+    if (expectedSignature === req.body.razorpay_signature)
+        response = { status: "success" };
+    res.send(response);
+});
+app.listen("3003", () => {
+    console.log("server started");
+});
