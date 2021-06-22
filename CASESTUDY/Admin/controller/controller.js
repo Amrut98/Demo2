@@ -3,37 +3,71 @@ module.exports = function(app) {
 
 
     app.get('/', (req, res) => {
-        res.render('admin')
-    })
-
+            res.render('admin')
+        })
+        /** 
+         *  @swagger
+         *  /trainlist/:
+         *  get:
+         *      summary: "To get the list of all trains"
+         *      responses: 
+         *          '200':
+         *              description: A successful response
+         */
     app.get('/trainlist', function(req, res) {
 
-        trains.find().then((trains) => {
-            res.json(trains)
-        }).catch(err => {
-            if (err) {
-                throw err;
-            }
-        })
-
-    })
-
-    app.get('/trainlist/:id', (req, res) => {
-        trains.findById(req.params.id).then((trains) => {
-
-            if (trains) {
+            trains.find().then((trains) => {
                 res.json(trains)
-            } else {
-                res.sendStatus(404)
-            }
+            }).catch(err => {
+                if (err) {
+                    throw err;
+                }
+            })
 
-        }).catch(err => {
-            if (err) {
-                throw err;
-            }
         })
-    })
+        /** 
+         *  @swagger
+         *  /trainlist/{id}:
+         *  get:
+         *      summary: "To get the list of all trains"
+         *      parameters:
+         *            - in: path
+         *              name: id
+         *              schema:
+         *                  type: string
+         *              required: true
+         *      responses: 
+         *          '200':
+         *              description: A successful response
+         */
+    app.get('/trainlist/:id', (req, res) => {
+            trains.findById(req.params.id).then((trains) => {
 
+                if (trains) {
+                    res.json(trains)
+                } else {
+                    res.sendStatus(404)
+                }
+
+            }).catch(err => {
+                if (err) {
+                    throw err;
+                }
+            })
+        })
+        /**
+         * @swagger
+         * /addtrain:
+         *   post:
+         *     requestBody:
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object                      
+         *     responses:
+         *       200:
+         *         description: Returns the requested user
+         */
     app.post('/addtrain', function(req, res) {
         var newTrain = {
             name: req.body.name,
@@ -58,8 +92,22 @@ module.exports = function(app) {
         // console.log(req.body);
     })
 
+
+    /**
+     * @swagger
+     * /deletetrain/{id}:
+     *   delete:
+     *     parameters:
+     *      - in: path
+     *        name: id
+     *        type: string
+     *     description: Train deleted
+     *     responses:
+     *       200:
+     *         description: Returns the requested admin
+     */
     app.delete('/deletetrain/:id', function(req, res) {
-        trains.findOneAndRemove(req.params.id).then(() => {
+        trains.findByIdAndDelete(req.params.id).then(() => {
             res.send('Train deleted')
 
         }).catch(err => {

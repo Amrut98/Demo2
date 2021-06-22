@@ -51,13 +51,14 @@ const createToken = (id) => {
 
 // controller actions
 module.exports.signup_get = (req, res) => {
-    res.render('signup');
+
     fs.readFile(__dirname + '../views/signup.ejs', 'utf-8', function(err, data) {
 
         // Display the file content
         res.send(data);
         res.render('signup');
     })
+    res.render('signup');
 }
 
 module.exports.login_get = (req, res) => {
@@ -69,6 +70,7 @@ module.exports.login_get = (req, res) => {
         res.send(data);
         res.render('login');
     })
+    res.render('login');
 }
 module.exports.signup_post = async(req, res) => {
     const { email, password } = req.body;
