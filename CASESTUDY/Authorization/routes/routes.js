@@ -38,7 +38,7 @@ router.post('/signup', Controller.signup_post);
 
 /** 
  *  @swagger
- *  /login:
+ *  /login_get:
  *  get:
  *      summary: "To get login"
  *      responses: 

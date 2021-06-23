@@ -92,12 +92,13 @@ describe('Tasks API', () => {
         })
         it("it should NOT POST new task without parameters", (done) => {
             const task = {
-                time: "10 Hrs",
+                time: "11 Hrs"
             };
             chai.request(server)
-                .post('/addtrain')
+                .post('/addtrains')
                 .send(task)
                 .end((err, response) => {
+
                     response.should.have.status(404);
                     done();
                 })
@@ -110,7 +111,7 @@ describe('Tasks API', () => {
         it("it should PUT a task", (done) => {
             const taskId = "60d1af165987ec63d05dfab2";
             const task = {
-                name: "Kokan Kanya",
+                name: "Himalayn Express",
                 time: "10 Hrs",
                 trainno: "512377",
                 reach_time: "10:00 AM",
@@ -120,12 +121,12 @@ describe('Tasks API', () => {
                 distance: "800 KM"
             };
             chai.request(server)
-                .put('/updatetrain' + taskId)
+                .put('/trainlist/' + taskId)
                 .send(task)
                 .end((err, response) => {
                     response.should.have.status(200);
                     response.body.should.be.a('object');
-                    response.body.should.have.property('name').eq("Kokan Kanya");
+                    response.body.should.have.property('name');
                     done();
                 })
         })
@@ -135,7 +136,7 @@ describe('Tasks API', () => {
                 time: "10 Hrs",
             };
             chai.request(server)
-                .put('/updatetrain')
+                .put('/trainlists')
                 .send(task)
                 .end((err, response) => {
                     response.should.have.status(404);
@@ -146,25 +147,20 @@ describe('Tasks API', () => {
 
     //DELETE
     describe('DELETE /deletetrain/:id', () => {
-        it("it should PUT a task", (done) => {
+        it("it should DELETE a task", (done) => {
             const taskId = "60d1af165987ec63d05dfab2";
             chai.request(server)
-                .delete('/deletertrain' + taskId)
-                .send(task)
+                .delete('/deletetrain/' + taskId)
                 .end((err, response) => {
                     response.should.have.status(200);
                     done();
                 })
         })
 
-        it("it should NOT PUT new task without 3 parameters", (done) => {
+        it("it should NOT Delete new task without 3 parameters", (done) => {
             const taskId = "60d1af165987ec63d05dfab2";
-            const task = {
-                time: "10 Hrs",
-            };
             chai.request(server)
-                .delete('/deletetrain')
-                .send(task)
+                .delete('/deletetrains')
                 .end((err, response) => {
                     response.should.have.status(404);
                     done();

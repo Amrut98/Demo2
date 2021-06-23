@@ -105,19 +105,38 @@ module.exports = function(app) {
      *         description: Returns the requested admin
      */
     app.delete('/deletetrain/:id', function(req, res) {
-        trains.findByIdAndDelete(req.params.id).then(() => {
-            res.send('Train deleted')
+            trains.findByIdAndDelete(req.params.id).then(() => {
+                res.send('Train deleted')
 
-        }).catch(err => {
-            if (err) {
-                throw err;
-            }
+            }).catch(err => {
+                if (err) {
+                    res.sendStatus(404);
+                }
+            })
+
         })
-
-    })
-
-    app.put('/updatetrain', function(req, res) {
-        res.send({ 'type': 'PUT' })
-
-    })
+        /**
+         * @swagger
+         * /trainlist/{id}:
+         *   put:
+         *     parameters:
+         *       - in: path
+         *         name: id
+         *         type: string
+         *     requestBody:
+         *       content:
+         *         application/json: 
+         *             schema:
+         *                type: object
+         *     responses:
+         *         200:
+         *           description: put train by ID
+         */
+    app.put('/trainlist/:id', (req, res, next) => {
+        trains.findByIdAndUpdate({ _id: req.params.id }, req.body).then(() => {
+            trains.findOne({ _id: req.params.id }).then((trains) => {
+                res.json(trains);
+            });
+        });
+    });
 }

@@ -49,3 +49,5 @@ app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
 app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
 app.use(routes);
+
+module.exports = app;
