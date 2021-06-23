@@ -4,35 +4,35 @@ const Schema = mongoose.Schema;
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     time: {
         type: String,
-        require: true
+        required: true
     },
     trainno: {
         type: String,
-        require: true
+        required: true
     },
     reach_time: {
         type: String,
-        require: true
+        required: true
     },
     start_time: {
         type: String,
-        require: true
+        required: true
     },
     source: {
         type: String,
-        require: true
+        required: true
     },
     destination: {
         type: String,
-        require: true
+        required: true
     },
     distance: {
         type: String,
-        require: true
+        required: true
     }
 });
 

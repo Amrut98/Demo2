@@ -44,16 +44,14 @@ module.exports = function(app) {
             trains.findById(req.params.id).then((trains) => {
 
                 if (trains) {
-                    res.json(trains)
-                } else {
-                    res.sendStatus(404)
+                    res.json(trains);
                 }
-
             }).catch(err => {
                 if (err) {
-                    throw err;
+                    res.sendStatus(404);
                 }
             })
+
         })
         /**
          * @swagger
@@ -84,7 +82,7 @@ module.exports = function(app) {
             console.log('New Train added')
         }).catch((err) => {
             if (err) {
-                throw err;
+                res.sendStatus(404);
             }
 
         })
@@ -118,7 +116,7 @@ module.exports = function(app) {
 
     })
 
-    app.put('/', function(req, res) {
+    app.put('/updatetrain', function(req, res) {
         res.send({ 'type': 'PUT' })
 
     })
