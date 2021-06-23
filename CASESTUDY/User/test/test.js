@@ -37,7 +37,7 @@ describe('Tasks API', () => {
     //GET by id
     describe('GET /trainlist/:id', () => {
         it("it should get by id", (done) => {
-            const taskId = "60d1af165987ec63d05dfab2"
+            const taskId = "60d1d43414722d6bb855e728"
             chai.request(server)
                 .get('/trainlist/' + taskId)
                 .end((err, response) => {
@@ -52,7 +52,7 @@ describe('Tasks API', () => {
                     response.body.should.have.property('source');
                     response.body.should.have.property('destination');
                     response.body.should.have.property('distance');
-                    response.body.should.have.property('_id').eq('60d1af165987ec63d05dfab2');
+                    response.body.should.have.property('_id').eq('60d1d43414722d6bb855e728');
                     done();
                 })
         })

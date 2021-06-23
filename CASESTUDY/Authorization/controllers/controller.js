@@ -1,11 +1,5 @@
-const express = require('express');
-const User = require("../models/users");
+const User = require("../models/Users");
 const jwt = require('jsonwebtoken');
-const app = express();
-
-var fs = require('fs');
-
-
 
 // handle errors
 const handleErrors = (err) => {
@@ -44,34 +38,20 @@ const handleErrors = (err) => {
 // create json web token
 const maxAge = 5 * 24 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, 'Amrut Kulkarni', {
+    return jwt.sign({ id }, 'Amrut K', {
         expiresIn: maxAge
     });
 };
 
 // controller actions
 module.exports.signup_get = (req, res) => {
-
-    fs.readFile(__dirname + '../views/signup.ejs', 'utf-8', function(err, data) {
-
-        // Display the file content
-        res.send(data);
-        res.render('signup');
-    })
     res.render('signup');
 }
 
 module.exports.login_get = (req, res) => {
-
-    // Use fs.readFile() method to read the file
-    fs.readFile(__dirname + '../views/login.ejs', 'utf-8', function(err, data) {
-
-        // Display the file content
-        res.send(data);
-        res.render('login');
-    })
     res.render('login');
 }
+
 module.exports.signup_post = async(req, res) => {
     const { email, password } = req.body;
 

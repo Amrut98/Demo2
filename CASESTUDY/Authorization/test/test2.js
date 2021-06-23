@@ -16,7 +16,7 @@ describe('Tasks API', () => {
                 .get('/signup')
                 .end((err, response) => {
                     response.should.have.status(200);
-                    response.body.should.be.a('array');
+                    response.body.should.be.a('object');
                     done();
                 })
         })
@@ -63,14 +63,14 @@ describe('Tasks API', () => {
     describe('POST /signup', () => {
         it("it should POST new task", (done) => {
             const task = {
-                email: "ghja@gmail.com",
+                email: "cja@gmail.com",
                 password: "987654321"
             };
             chai.request(server)
                 .post('/signup')
                 .send(task)
                 .end((err, response) => {
-                    response.should.have.status(200);
+                    response.should.have.status(201);
                     response.body.should.be.a('object');
                     done();
                 })
@@ -80,7 +80,7 @@ describe('Tasks API', () => {
                 email: "ijk@gmail.com",
             };
             chai.request(server)
-                .post('/signup')
+                .post('/signupa')
                 .send(task)
                 .end((err, response) => {
                     response.should.have.status(404);
@@ -97,7 +97,7 @@ describe('Tasks API', () => {
                 .get('/login')
                 .end((err, response) => {
                     response.should.have.status(200);
-                    response.body.should.be.a('array');
+                    response.body.should.be.a('object');
                     done();
                 })
         })
@@ -134,7 +134,7 @@ describe('Tasks API', () => {
                 email: "ijk@gmail.com",
             };
             chai.request(server)
-                .post('/login')
+                .post('/logins')
                 .send(task)
                 .end((err, response) => {
                     response.should.have.status(404);

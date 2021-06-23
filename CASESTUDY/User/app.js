@@ -35,3 +35,5 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
     .catch((err) => console.log(err));
 
 controlleruser(app);
+
+module.exports = app;
