@@ -1,4 +1,6 @@
 const trains = require("../model/trains");
+const userdata = require("../model/userdata");
+const axios = require('axios');
 module.exports = function(app) {
 
 
@@ -139,4 +141,75 @@ module.exports = function(app) {
             });
         });
     });
+
+
+    /** 
+     *  @swagger
+     *  /userdata/:
+     *  get:
+     *      summary: "To get the list of all user"
+     *      responses: 
+     *          '200':
+     *              description: A successful response
+     */
+    app.get('/userdata', function(req, res) {
+
+        userdata.find().then((userdata) => {
+            res.json(userdata)
+        }).catch(err => {
+            if (err) {
+                throw err;
+            }
+        })
+
+    })
+
+
+    /**
+     * @swagger
+     * /userdata/{id}:
+     *   delete:
+     *     parameters:
+     *      - in: path
+     *        name: id
+     *        type: string
+     *     description: User deleted
+     *     responses:
+     *       200:
+     *         description: Returns the requested admin
+     */
+    app.delete('/userdata/:id', function(req, res) {
+        userdata.findByIdAndDelete(req.params.id).then(() => {
+            res.send('User deleted')
+
+        }).catch(err => {
+            if (err) {
+                res.sendStatus(404);
+            }
+        })
+
+    })
+
+    app.get('/users', (req, res, next) => {
+        axios.get("http://localhost:3004/userdata").then((response) => {
+            var users = response.data;
+            res.send(users);
+
+        });
+    });
+
+
+    app.post("/postuser", (req, res) => {
+        axios.post("http://localhost:3004/adduserdata", {
+            FirstName: "Rushi",
+            LastName: "Mahajan",
+            Address: "Sangli",
+            PhoneNo: 8652431954
+        }).then((response) => {
+            var user1 = response.data;
+            res.send(user1);
+        }).catch((err) => {
+            console.log(err.message);
+        })
+    })
 }

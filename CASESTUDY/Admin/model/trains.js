@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema({
     },
     trainno: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     reach_time: {
         type: String,
