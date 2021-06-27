@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser } = require('./middleware/middleware');
+const bodyParser = require('body-parser');
+const axios = require('axios');
 
 
 const app = express();
-
+app.use(bodyParser.json());
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -47,7 +49,24 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 // routes
 app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
-app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
+// app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
+
+app.get("/home", checkUser);
+// app.get("/userhome", requireAuth);
+
+app.get("/home", (req, res) => {
+    axios.get("http://localhost:3004/userdata").then((response) => {
+        // console.log(response.data);
+        var service = response.data;
+        res.send(service);
+    }).catch((err) => {
+        console.log(err.message);
+    })
+})
+
+
 app.use(routes);
+
+
 
 module.exports = app;

@@ -152,17 +152,17 @@ module.exports = function(app) {
      *          '200':
      *              description: A successful response
      */
-    app.get('/userdata', function(req, res) {
+    // app.get('/userdata', function(req, res) {
 
-        userdata.find().then((userdata) => {
-            res.json(userdata)
-        }).catch(err => {
-            if (err) {
-                throw err;
-            }
-        })
+    //     userdata.find().then((userdata) => {
+    //         res.json(userdata)
+    //     }).catch(err => {
+    //         if (err) {
+    //             throw err;
+    //         }
+    //     })
 
-    })
+    // })
 
 
     /**
@@ -199,17 +199,17 @@ module.exports = function(app) {
     });
 
 
-    app.post("/postuser", (req, res) => {
-        axios.post("http://localhost:3004/adduserdata", {
-            FirstName: "Rushi",
-            LastName: "Mahajan",
-            Address: "Sangli",
-            PhoneNo: 8652431954
-        }).then((response) => {
-            var user1 = response.data;
-            res.send(user1);
-        }).catch((err) => {
-            console.log(err.message);
-        })
-    })
+    // app.post("/postuser", (req, res) => {
+    //     axios.post("http://localhost:3004/adduserdata", {
+    //         FirstName: "Rushi",
+    //         LastName: "Mahajan",
+    //         Address: "Sangli",
+    //         PhoneNo: 8652431954
+    //     }).then((response) => {
+    //         var user1 = response.data;
+    //         res.send(user1);
+    //     }).catch((err) => {
+    //         console.log(err.message);
+    //     })
+    // })
 }
