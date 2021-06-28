@@ -152,17 +152,17 @@ module.exports = function(app) {
      *          '200':
      *              description: A successful response
      */
-    // app.get('/userdata', function(req, res) {
+    app.get('/userdata', function(req, res) {
 
-    //     userdata.find().then((userdata) => {
-    //         res.json(userdata)
-    //     }).catch(err => {
-    //         if (err) {
-    //             throw err;
-    //         }
-    //     })
+        userdata.find().then((userdata) => {
+            res.json(userdata)
+        }).catch(err => {
+            if (err) {
+                throw err;
+            }
+        })
 
-    // })
+    })
 
 
     /**

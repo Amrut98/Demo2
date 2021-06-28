@@ -33,7 +33,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // middleware
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -51,11 +51,11 @@ app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
 // app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
 
-app.get("/home", checkUser);
+app.get("/main", checkUser);
 // app.get("/userhome", requireAuth);
 
-app.get("/home", (req, res) => {
-    axios.get("http://localhost:3004/userdata").then((response) => {
+app.get("/main", (req, res) => {
+    axios.get("http://localhost:3000/trainlist").then((response) => {
         // console.log(response.data);
         var service = response.data;
         res.send(service);
